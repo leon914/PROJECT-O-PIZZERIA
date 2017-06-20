@@ -1,3 +1,5 @@
 /_mac/
 *.class
 /ProjectDarren/
+*iml
+.idea/
