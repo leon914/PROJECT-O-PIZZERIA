@@ -6,31 +6,27 @@ import java.util.List;
  */
 public class Table {
 
-    private int seats;
-    private List<Customer> customers = new ArrayList();
+    int tableNumber;
 
-    public Table(int seats){
-        this.seats = seats;
+    private Customer customer = null;
+
+    public Table(int tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
-    public void addCustomerExisting(Customer customer) {
-        if (this.customers.size() <= this.seats) {
-        customers.add(customer);
+    public void addCustomer(Customer newCustomer) {
+        if (this.customer == null) { // nobody sitting here yet
+            this.customer = newCustomer;
         } else {
             System.out.println("There isn't enough space on this table to add another customer");
         }
     }
 
-    public void removeCustomerExisting(Customer customer) {
-            customers.remove(customer);
+    public void removeCustomer() {
+        this.customer = null;
     }
 
-
-    public int getSeats() {
-      return this.seats;
-    }
-
-    public List<Customer> getCustomerList() {
-        return this.customers;
+    public Customer getCustomer() {
+        return this.customer;
     }
 }

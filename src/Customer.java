@@ -6,6 +6,8 @@ public class Customer {
     private String name;
     private int age;
 
+    private Order order = null;
+
     public Customer(String name, int age) {
         this.name = name;
         this.age = age;
@@ -17,5 +19,13 @@ public class Customer {
 
     public int getAge() {
         return this.age;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void addOrder(Order order) {
+        this.order = order;
     }
 }
