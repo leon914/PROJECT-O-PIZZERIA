@@ -5,7 +5,6 @@ public class Customer {
 
     private String name;
     private int age;
-
     private Order order = null;
 
     public Customer(String name, int age) {
@@ -23,6 +22,10 @@ public class Customer {
 
     public Order getOrder() {
         return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public void addOrder(Order order) {

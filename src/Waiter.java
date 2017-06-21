@@ -29,6 +29,10 @@ public class Waiter {
         this.order.addItem(purchaseable);
     }
 
+    public Menu getLuciosMenu() {
+        return this.luciosMenu;
+    }
+
     public void foodMenuPrint() {
         this.luciosMenu.listFoodMenu();
     }

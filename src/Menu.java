@@ -1,5 +1,7 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Set;
  */
 public class Menu {
 
-     private Set foodMenu = new HashSet<Food>() {{
+     private List<Food> foodMenu = new ArrayList<Food>() {{
          add(new Food("Margherita Pizza", 7.00));
          add(new Food("Pepperoni Pizza", 8.00));
          add(new Food("Hawaiian  Pizza", 8.50));
@@ -19,7 +21,7 @@ public class Menu {
          add(new Food("Spaghetti Bolognese", 8.25));
          add(new Food("Lasagna", 9.25));
      }};
-     private Set drinkMenu = new HashSet<Drink>()  {{
+     private List<Drink> drinkMenu = new ArrayList<Drink>()  {{
          add(new Drink("Tap Water", 0.00));
          add(new Drink("Bottled Water", 0.50));
          add(new Drink("Orange Juice", 1.20));
@@ -31,11 +33,11 @@ public class Menu {
          add(new Drink("White Wine", 4.50));
      }};
 
-     public Set<Food> getFoodMenu() {
+     public List<Food> getFoodMenu() {
          return this.foodMenu;
      }
 
-    public Set<Drink> getDrinkMenu() {
+    public List<Drink> getDrinkMenu() {
         return this.drinkMenu;
     }
 
