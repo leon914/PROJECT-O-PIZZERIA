@@ -6,6 +6,11 @@ public abstract class Purchaseable {
     private String name;
     private double price;
 
+    public Purchaseable(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public String getName() {
         return this.name;
     }

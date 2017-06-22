@@ -6,27 +6,31 @@ import java.util.List;
  */
 public class Table {
 
-    int tableNumber;
+    private final int tableNumber;
 
-    private Customer customer = null;
+    private Customer customer;
 
-    public Table(int tableNumber) {
+    public Table(final int tableNumber) {
         this.tableNumber = tableNumber;
     }
 
-    public void addCustomer(Customer newCustomer) {
-        if (this.customer == null) { // nobody sitting here yet
-            this.customer = newCustomer;
+    public void addCustomer(final Customer newCustomer) {
+        if (customer == null) { // nobody sitting here yet
+            customer = newCustomer;
         } else {
             System.out.println("There isn't enough space on this table to add another customer");
         }
     }
 
     public void removeCustomer() {
-        this.customer = null;
+        customer = null;
     }
 
     public Customer getCustomer() {
-        return this.customer;
+        return customer;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
     }
 }

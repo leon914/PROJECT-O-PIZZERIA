@@ -3,9 +3,9 @@
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        Restaurant restaurant = new Restaurant();
+        final Restaurant restaurant = new Restaurant();
         restaurant.initRestaurant();
         restaurant.run();
     }

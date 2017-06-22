@@ -3,32 +3,32 @@
  */
 public class Customer {
 
-    private String name;
-    private int age;
-    private Order order = null;
+    private final String name;
+    private final int age;
+    private Order order;
 
-    public Customer(String name, int age) {
+    public Customer(final String name,final int age) {
         this.name = name;
         this.age = age;
     }
 
-    public String getName() {
-        return this.name;
+    public final String getName() {
+        return name;
     }
 
     public int getAge() {
-        return this.age;
+        return age;
     }
 
     public Order getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(final Order order) {
         this.order = order;
     }
 
-    public void addOrder(Order order) {
+    public void addOrder(final Order order) {
         this.order = order;
     }
 }

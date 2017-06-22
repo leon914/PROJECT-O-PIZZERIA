@@ -3,41 +3,26 @@
  */
 public class Waiter {
 
-    private String name;
-    private Order order;
-    private Menu luciosMenu = new Menu();
+    private final String name;
+    private Menu menu = new Menu();
 
-    public Waiter(String name) {
+    public Waiter (final String name) {
         this.name = name;
     }
 
     public String getName() {
-        return this.name;
-    }
-//
-//    public void addCustomerToTable(Customer customer, Table table) {
-//        table.addCustomerExisting(customer);
-//    }
-//    public void removeCustomerFromTable(Customer customer, Table table) {
-//        table.removeCustomerExisting(customer);
-//    }
-    public void startOrder(Table table, Restaurant restaurant) {
-        System.out.println("Hello, my name is " + this.name + ", how may I help?");
-      //  restaurant.addOrder(new Order(table));
-    }
-    public void addItem(Purchaseable purchaseable) {
-        this.order.addItem(purchaseable);
+        return name;
     }
 
-    public Menu getLuciosMenu() {
-        return this.luciosMenu;
+    public Menu getMenu() {
+        return menu;
     }
 
     public void foodMenuPrint() {
-        this.luciosMenu.listFoodMenu();
+        menu.listFoodMenu();
     }
     public void drinkMenuPrint() {
-        this.luciosMenu.listDrinkMenu();
+        menu.listDrinkMenu();
     }
 
 
