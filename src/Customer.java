@@ -12,10 +12,10 @@ public class Customer {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getAge() {
-        return this.age;
+        return age;
     }
 }
