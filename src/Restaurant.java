@@ -10,7 +10,7 @@ public class Restaurant {
     private List<Order> orders;
 
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         Restaurant lucios = new Restaurant();
         Menu luciosMenu = new Menu();
@@ -63,37 +63,30 @@ public class Restaurant {
         luciosMenu.listFoodMenu();
         luciosMenu.listDrinkMenu();
 
+        System.out.println(lucios.getCustomers(lucios.tables.get(3)));
+
 
     }
 
     public String getCustomers(Table table) {
-        StringBuilder builder = new StringBuilder("On this table there is ");
-        int counter = 1;
-        if (table.getCustomerList().size() > 0) {
-            for (Customer customer : table.getCustomerList()) {
-                if (table.getCustomerList().size()== counter) {
-                    if (counter == 1) {
-                        builder.append(customer.getName());
-                        counter++;
-                    } else {
-                        builder.append(" and " + customer.getName());
-                        counter++;
-                    }
-                } else {
-                    if (counter == 1) {
-                        builder.append(customer.getName());
-                        counter++;
-                    }   else {
-                        builder.append( ", " + customer.getName());
-                        counter++;
-                    }
-                }
-            }
-        } else {
+        if (table.getCustomerList().isEmpty()) {
             return "There is no one at this table";
         }
+        StringBuilder builder = new StringBuilder("On this table there is ");
+        int counter = 1;
+        for (Customer customer : table.getCustomerList()) {
+            if (counter != 1) {
+                if (table.getCustomerList().size() == counter) {
+                    builder.append(" and ");
+                } else {
+                    builder.append(", ");
+                }
+            }
+            builder.append(customer.getName());
+            counter++;
+        }
+        return builder.toString();
 
-        return  builder.toString();
     }
 
     public void getContentsOfRestaurant(List<Table> tables) {
@@ -101,9 +94,11 @@ public class Restaurant {
             System.out.println(getCustomers(table));
         }
     }
+
     public List getOrders() {
         return orders;
     }
+
     public void addOrder(Order order) {
         this.orders.add(order);
     }
