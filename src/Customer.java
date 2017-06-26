@@ -3,13 +3,26 @@
  */
 public class Customer {
 
-    private final String name;
-    private final int age;
+    private String name;
+    private int age;
     private Order order;
 
     public Customer(final String name,final int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Customer(){
+
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setName(String name) {
+
+        this.name = name;
     }
 
     public final String getName() {
@@ -31,4 +44,6 @@ public class Customer {
     public void addOrder(final Order order) {
         this.order = order;
     }
+
+
 }

@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,11 +8,18 @@ import java.util.List;
  */
 public class Table {
 
-    private final int tableNumber;
+    private int tableNumber;
 
     private Customer customer;
 
     public Table(final int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    public Table() {
+    }
+
+    public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
     }
 
@@ -32,5 +41,9 @@ public class Table {
 
     public int getTableNumber() {
         return tableNumber;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

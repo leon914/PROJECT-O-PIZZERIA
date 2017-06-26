@@ -1,3 +1,7 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,7 +11,7 @@ import java.util.Scanner;
  */
 public class Restaurant {
 
-    private final List<Table> tables = new ArrayList<>();
+    private List<Table> tables = new ArrayList<>();
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -408,10 +412,34 @@ public class Restaurant {
     }
 
     public void saveTables() {
-        
+        savePerson(tables);
     }
 
     public void loadTables() {
+        File restaurant = new File("restaurant.json");
+        tables = loadPeople(restaurant);
+    }
+
+
+    public static void savePerson(List<Table> tables) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File("restaurant.json"), tables);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static List<Table> loadPeople(File json) {
+        List<Table> tables;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            tables = mapper.readValue(json, new TypeReference<List<Table>>(){});
+        } catch(Exception e) {
+            System.out.println(e);
+            tables = null;
+        }
+        return tables;
 
     }
 }

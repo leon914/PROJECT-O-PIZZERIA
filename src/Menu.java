@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public class Menu {
 
-     private List<Food> foodMenu = new ArrayList<Food>() {{
+     private final List<Food> foodMenu = new ArrayList<Food>() {{
          add(new Food("Margherita Pizza", 7.00));
          add(new Food("Pepperoni Pizza", 8.00));
          add(new Food("Hawaiian  Pizza", 8.50));
@@ -21,7 +21,7 @@ public class Menu {
          add(new Food("Spaghetti Bolognese", 8.25));
          add(new Food("Lasagna", 9.25));
      }};
-     private List<Drink> drinkMenu = new ArrayList<Drink>()  {{
+     private final List<Drink> drinkMenu = new ArrayList<Drink>()  {{
          add(new Drink("Tap Water", 0.00));
          add(new Drink("Bottled Water", 0.50));
          add(new Drink("Orange Juice", 1.20));

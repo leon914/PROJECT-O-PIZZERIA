@@ -3,7 +3,7 @@
  */
 public class Food extends Purchaseable {
 
-    public Food(String name, double price) {
+    public Food(final String name, double price) {
         super(name, price);
     }
 
@@ -15,5 +15,11 @@ public class Food extends Purchaseable {
         return super.getPrice();
     }
 
+    public void setName(String name){
+        super.setName(name);
+    }
 
+    public void setPrice(double price){
+        super.setPrice(price);
+    }
 }
