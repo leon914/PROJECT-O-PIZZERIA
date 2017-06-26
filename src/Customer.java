@@ -21,11 +21,10 @@ public class Customer {
     }
 
     public void setName(String name) {
-
         this.name = name;
     }
 
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
@@ -40,10 +39,4 @@ public class Customer {
     public void setOrder(final Order order) {
         this.order = order;
     }
-
-    public void addOrder(final Order order) {
-        this.order = order;
-    }
-
-
 }
