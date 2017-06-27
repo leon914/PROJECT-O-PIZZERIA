@@ -17,9 +17,7 @@ public class Order {
 
     }
 
-    public Order(){
-
-    }
+    public Order(){}
 
     public void addItem(Purchaseable purchaseable){
         this.order.add(purchaseable);

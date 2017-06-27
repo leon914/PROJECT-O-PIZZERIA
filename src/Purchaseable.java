@@ -6,28 +6,26 @@ public class Purchaseable {
     private String name;
     private double price;
 
+    public Purchaseable() {}
+
     public Purchaseable(final String name, final double price) {
         this.name = name;
         this.price = price;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public double getPrice() {
-        return this.price;
-    }
-
-    public Purchaseable(){
-
-    }
-
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(final double price) {
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
         this.price = price;
     }
 }

@@ -7,11 +7,4 @@ public class Drink extends Purchaseable {
         super(name, price);
     }
 
-    public void setName(final String name) {
-        super.setName(name);
-    }
-
-    public void setPrice(final double price) {
-        super.setPrice(price);
-    }
 }
