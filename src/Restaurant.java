@@ -25,75 +25,7 @@ public class Restaurant {
 
     }
 
-    public void run() {
-
-        System.out.println("Hello guys, its a funky pizza parlour!");
-
-        while (true) {
-
-            printOptions();
-
-            int input = SCANNER.nextInt();
-
-            if (input == 0) {
-                break;
-            }
-
-            switch (input) {
-                case 1:
-                    printTables();
-                    break;
-                case 2:
-                    printFood();
-                    break;
-                case 3:
-                    printDrink();
-                    break;
-                case 4:
-                    addCustomer();
-                    break;
-                case 5:
-                    removeCustomer();
-                    break;
-                case 6:
-                    makeOrder();
-                    break;
-                case 7:
-                    printOrders();
-                    break;
-                case 8:
-                    addItemToOrder();
-                    break;
-                case 9:
-                    saveTables();
-                    break;
-                case 10:
-                    loadTables();
-                    break;
-                default:
-                    System.out.println("That wasn't a valid option, Try again.");
-                    break;
-            }
-        }
-    }
-
-    private void printOptions() {
-        System.out.println("\nSelecto an optiono:");
-        System.out.println("0. Exit");
-        System.out.println("1. Print Tables");
-        System.out.println("2. Print Food Menu");
-        System.out.println("3. Print Drink Menu");
-        System.out.println("4. Add a Customer");
-        System.out.println("5. Remove a Customer");
-        System.out.println("6. Make an Order");
-        System.out.println("7. Print Current Orders");
-        System.out.println("8. Add Items to and Existing Order");
-        System.out.println("9. Save Current Data");
-        System.out.println("10. Load Past Data");
-
-    }
-
-    private void printTables() {
+    public void printTables() {
         for (int i = 0; i < tables.size(); i++) {
             Table table = tables.get(i);
             String status = "Unoccupied";
@@ -105,15 +37,15 @@ public class Restaurant {
         }
     }
 
-    private void printFood() {
+    public void printFood() {
         carlos.foodMenuPrint();
     }
 
-    private void printDrink() {
+    public void printDrink() {
         carlos.drinkMenuPrint();
     }
 
-    private void printOrders() {
+    public void printOrders() {
         for (int i = 1; i < tables.size(); i++) {
             if (this.tables.get(i).getCustomer() == null || this.tables.get(i).getCustomer().getOrder() == null) {
                 System.out.println(i + ". Table no " + this.tables.get(i).getTableNumber() + " - Currently has no order.");
@@ -124,7 +56,7 @@ public class Restaurant {
         }
     }
 
-    private void addCustomer() {
+    public void addCustomer() {
         System.out.println("What is this persons name?");
         final String name = SCANNER.next();
         System.out.println("How old is this person?");
@@ -135,7 +67,7 @@ public class Restaurant {
         tables.get(table).addCustomer(new Customer(name, age));
     }
 
-    private void removeCustomer() {
+    public void removeCustomer() {
         printTables();
         System.out.println("Which table should be vacated?");
         int nominated = SCANNER.nextInt() - 1;
@@ -144,7 +76,7 @@ public class Restaurant {
         System.out.println("Table no " + nominated + " has been vacated.");
     }
 
-    private void makeOrder() {
+    public void makeOrder() {
         int table;
         while (true) {
             System.out.println("Which table would you like to make an order to? (Select an Option)");

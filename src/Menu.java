@@ -8,6 +8,15 @@ import java.util.Set;
  * Created by lhi06 on 15/06/2017.
  */
 public class Menu {
+        private static Menu instance = null;
+        protected Menu() {}
+
+    public static Menu getInstance() {
+            if(instance == null) {
+                instance = new Menu();
+            }
+            return instance;
+    }
 
      private final List<Food> foodMenu = new ArrayList<Food>() {{
          add(new Food("Margherita Pizza", 7.00));

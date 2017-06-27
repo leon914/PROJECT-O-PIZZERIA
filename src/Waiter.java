@@ -4,10 +4,11 @@
 public class Waiter {
 
     private final String name;
-    private Menu menu = new Menu();
+    private Menu menu;
 
     public Waiter (final String name) {
         this.name = name;
+        menu.getInstance();
     }
 
     public String getName() {

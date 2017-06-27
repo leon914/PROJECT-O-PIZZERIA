@@ -8,33 +8,33 @@ public class Customer {
     private int age;
     private Order order;
 
+    public Customer() {
+
+    }
+
     public Customer(final String name, final int age) {
         this.name = name;
         this.age = age;
-    }
-
-    public Customer() {
-
     }
 
     public void setAge(final int age) {
         this.age = age;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public int getAge() {
+        return age;
     }
 
-    public void setOrder(final Order order) {
-        this.order = order;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getAge() {
-        return age;
+    public void setOrder(final Order order) {
+        this.order = order;
     }
 
     public Order getOrder() {
