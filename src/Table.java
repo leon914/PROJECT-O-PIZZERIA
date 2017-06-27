@@ -43,7 +43,7 @@ public class Table {
         return tableNumber;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 }

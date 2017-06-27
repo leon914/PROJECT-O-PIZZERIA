@@ -114,7 +114,7 @@ public class Restaurant {
     }
 
     private void printOrders() {
-        for (int i = 0; i < tables.size(); i++) {
+        for (int i = 1; i < tables.size(); i++) {
             if (this.tables.get(i).getCustomer() == null || this.tables.get(i).getCustomer().getOrder() == null) {
                 System.out.println(i + ". Table no " + this.tables.get(i).getTableNumber() + " - Currently has no order.");
             } else {
@@ -140,7 +140,8 @@ public class Restaurant {
         System.out.println("Which table should be vacated?");
         int nominated = SCANNER.nextInt() - 1;
         tables.get(nominated).removeCustomer();
-        System.out.println("Table no " + nominated++ + " has been vacated.");
+        nominated++;
+        System.out.println("Table no " + nominated + " has been vacated.");
     }
 
     private void makeOrder() {
@@ -421,20 +422,22 @@ public class Restaurant {
     }
 
 
-    public static void savePerson(List<Table> tables) {
+    public static void savePerson(final List<Table> tables) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(new File("restaurant.json"), tables);
+            System.out.println("Saved current data.");
         } catch(Exception e) {
             System.out.println(e);
         }
     }
 
-    public static List<Table> loadPeople(File json) {
+    public static List<Table> loadPeople(final File json) {
         List<Table> tables;
         try {
             ObjectMapper mapper = new ObjectMapper();
             tables = mapper.readValue(json, new TypeReference<List<Table>>(){});
+            System.out.println("Loaded current data.");
         } catch(Exception e) {
             System.out.println(e);
             tables = null;
