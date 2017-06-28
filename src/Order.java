@@ -20,7 +20,7 @@ public class Order {
     }
 
     public void addItem(Purchaseable purchaseable){
-        this.items.add(purchaseable);
+        items.add(purchaseable);
     }
 
     public void orderSummary() {

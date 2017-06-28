@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public class Menu {
         private static Menu instance = null;
-        protected Menu() {}
+        private Menu() {}
 
     public static Menu getInstance() {
             if(instance == null) {
@@ -43,19 +43,11 @@ public class Menu {
      }};
 
      public List<Food> getFoodMenu() {
-         return this.foodMenu;
+         return foodMenu;
      }
 
     public List<Drink> getDrinkMenu() {
-        return this.drinkMenu;
-    }
-
-     public void addFood(Food food) {
-         foodMenu.add(food);
-     }
-
-    public void addDrink(Drink drink) {
-        drinkMenu.add(drink);
+        return drinkMenu;
     }
 
     public void listFoodMenu() {

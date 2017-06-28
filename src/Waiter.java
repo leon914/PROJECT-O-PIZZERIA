@@ -18,12 +18,4 @@ public class Waiter {
     public Menu getMenu() {
         return menu;
     }
-
-    public void foodMenuPrint() {
-        menu.listFoodMenu();
-    }
-    public void drinkMenuPrint() {
-        menu.listDrinkMenu();
-    }
-
 }
