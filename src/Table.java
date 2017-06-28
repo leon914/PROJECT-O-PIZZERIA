@@ -10,28 +10,33 @@ public class Table {
 
     private int tableNumber;
 
-    private Customer customer;
-
-    public Table(final int tableNumber) {
-        this.tableNumber = tableNumber;
-    }
+    private List<Customer> customers = new ArrayList<>();
 
     public Table() {
     }
 
-    public void setTableNumber(int tableNumber) {
+    public Table(final int tableNumber) {
         this.tableNumber = tableNumber;
-    }
-
-    public Customer getCustomer() {
-        return customer;
     }
 
     public int getTableNumber() {
         return tableNumber;
     }
 
-    public void setCustomer(final Customer customer) {
-        this.customer = customer;
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.tableNumber == ((Table)obj).tableNumber;
     }
 }

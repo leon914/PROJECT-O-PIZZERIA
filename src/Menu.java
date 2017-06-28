@@ -8,17 +8,8 @@ import java.util.Set;
  * Created by lhi06 on 15/06/2017.
  */
 public class Menu {
+
     private static Menu instance = null;
-
-    private Menu() {
-    }
-
-    public static Menu getInstance() {
-        if (instance == null) {
-            instance = new Menu();
-        }
-        return instance;
-    }
 
     private final List<Food> foodMenu = new ArrayList<Food>() {{
         add(new Food("Margherita Pizza", 7.00));
@@ -32,6 +23,7 @@ public class Menu {
         add(new Food("Spaghetti Bolognese", 8.25));
         add(new Food("Lasagna", 9.25));
     }};
+
     private final List<Drink> drinkMenu = new ArrayList<Drink>() {{
         add(new Drink("Tap Water", 0.00));
         add(new Drink("Bottled Water", 0.50));
@@ -43,6 +35,15 @@ public class Menu {
         add(new Drink("Red Wine", 4.50));
         add(new Drink("White Wine", 4.50));
     }};
+
+    private Menu() {}
+
+    public static Menu getInstance() {
+        if (instance == null) {
+            instance = new Menu();
+        }
+        return instance;
+    }
 
     public List<Food> getFoodMenu() {
         return foodMenu;
