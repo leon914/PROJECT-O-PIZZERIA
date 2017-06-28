@@ -6,7 +6,7 @@ public class Waiter {
     private final String name;
     private Menu menu;
 
-    public Waiter (final String name) {
+    public Waiter(final String name) {
         this.name = name;
         menu.getInstance();
     }

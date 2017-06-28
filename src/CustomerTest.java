@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CustomerTest {
     Customer customer;
+
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         customer = new Customer("John", 32);

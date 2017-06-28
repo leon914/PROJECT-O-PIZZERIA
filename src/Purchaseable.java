@@ -6,7 +6,8 @@ public class Purchaseable {
     private String name;
     private double price;
 
-    public Purchaseable() {}
+    public Purchaseable() {
+    }
 
     public Purchaseable(final String name, final double price) {
         this.name = name;

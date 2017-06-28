@@ -2,6 +2,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +16,10 @@ public class Main {
     public static void main(final String[] args) {
 
         final Restaurant restaurant = new Restaurant();
-        restaurant.initRestaurant();
+
+        for (int i = 1; i <= 6; i++) {
+            restaurant.getTables().add(new Table(i));
+        }
         System.out.println("Hello guys, its a funky pizza parlour!");
 
         while (true) {
@@ -95,11 +99,21 @@ public class Main {
     }
 
     public static void printFood(Restaurant restaurant) {
-        restaurant.getWaiter().getMenu().listFoodMenu();
+        DecimalFormat df = new DecimalFormat("#.00");
+        int i = 1;
+        for (Food food : restaurant.getWaiter().getMenu().getFoodMenu()) {
+            System.out.println(i + "." + food.getName() + " £" + df.format(food.getPrice()));
+            i++;
+        }
     }
 
     public static void printDrink(Restaurant restaurant) {
-        restaurant.getWaiter().getMenu().listDrinkMenu();
+        DecimalFormat df = new DecimalFormat("#.00");
+        int i = 1;
+        for (Drink drink : restaurant.getWaiter().getMenu().getDrinkMenu()) {
+            System.out.println(i + "." + drink.getName() + " £" + df.format(drink.getPrice()));
+            i++;
+        }
     }
 
     public static void printOrders(Restaurant restaurant) {
@@ -162,46 +176,45 @@ public class Main {
             }
 
 
-
             switch (input) {
                 case 1:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(0));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(0));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(0).getName() + " was added to your order.");
                     break;
                 case 2:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(1));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(1));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(1).getName() + " was added to your order.");
                     break;
                 case 3:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(2));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(2));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(2).getName() + " was added to your order.");
                     break;
                 case 4:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(3));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(3));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(3).getName() + " was added to your order.");
                     break;
                 case 5:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(4));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(4));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(4).getName() + " was added to your order.");
                     break;
                 case 6:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(5));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(5));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(5).getName() + " was added to your order.");
                     break;
                 case 7:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(6));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(6));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(6).getName() + " was added to your order.");
                     break;
                 case 8:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(7));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(7));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(7).getName() + " was added to your order.");
                     break;
                 case 9:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(8));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(8));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(8).getName() + " was added to your order.");
                     break;
                 case 10:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(9));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(9));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(9).getName() + " was added to your order.");
                     break;
                 default:
@@ -223,39 +236,39 @@ public class Main {
 
             switch (input) {
                 case 1:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(0));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(0));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(0).getName() + " was added to your order.");
                     break;
                 case 2:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(1));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(1));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(1).getName() + " was added to your order.");
                     break;
                 case 3:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(2));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(2));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(2).getName() + " was added to your order.");
                     break;
                 case 4:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(3));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(3));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(3).getName() + " was added to your order.");
                     break;
                 case 5:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(4));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(4));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(4).getName() + " was added to your order.");
                     break;
                 case 6:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(5));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(5));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(5).getName() + " was added to your order.");
                     break;
                 case 7:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(6));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(6));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(6).getName() + " was added to your order.");
                     break;
                 case 8:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(7));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(7));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(7).getName() + " was added to your order.");
                     break;
                 case 9:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(8));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(8));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(8).getName() + " was added to your order.");
                     break;
                 default:
@@ -296,46 +309,45 @@ public class Main {
             }
 
 
-
             switch (input) {
                 case 1:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(0));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(0));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(0).getName() + " was added to your order.");
                     break;
                 case 2:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(1));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(1));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(1).getName() + " was added to your order.");
                     break;
                 case 3:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(2));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(2));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(2).getName() + " was added to your order.");
                     break;
                 case 4:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(3));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(3));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(3).getName() + " was added to your order.");
                     break;
                 case 5:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(4));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(4));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(4).getName() + " was added to your order.");
                     break;
                 case 6:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(5));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(5));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(5).getName() + " was added to your order.");
                     break;
                 case 7:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(6));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(6));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(6).getName() + " was added to your order.");
                     break;
                 case 8:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(7));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(7));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(7).getName() + " was added to your order.");
                     break;
                 case 9:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(8));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(8));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(8).getName() + " was added to your order.");
                     break;
                 case 10:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getFoodMenu().get(9));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getFoodMenu().get(9));
                     System.out.println(restaurant.getWaiter().getMenu().getFoodMenu().get(9).getName() + " was added to your order.");
                     break;
                 default:
@@ -357,39 +369,39 @@ public class Main {
 
             switch (input) {
                 case 1:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(0));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(0));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(0).getName() + " was added to your order.");
                     break;
                 case 2:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(1));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(1));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(1).getName() + " was added to your order.");
                     break;
                 case 3:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(2));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(2));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(2).getName() + " was added to your order.");
                     break;
                 case 4:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(3));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(3));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(3).getName() + " was added to your order.");
                     break;
                 case 5:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(4));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(4));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(4).getName() + " was added to your order.");
                     break;
                 case 6:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(5));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(5));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(5).getName() + " was added to your order.");
                     break;
                 case 7:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(6));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(6));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(6).getName() + " was added to your order.");
                     break;
                 case 8:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(7));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(7));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(7).getName() + " was added to your order.");
                     break;
                 case 9:
-                    restaurant.getTables().get(table).getCustomer().getOrder().addItem(restaurant.getWaiter().getMenu().getDrinkMenu().get(8));
+                    restaurant.getTables().get(table).getCustomer().getOrder().getItems().add(restaurant.getWaiter().getMenu().getDrinkMenu().get(8));
                     System.out.println(restaurant.getWaiter().getMenu().getDrinkMenu().get(8).getName() + " was added to your order.");
                     break;
                 default:
@@ -416,7 +428,7 @@ public class Main {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(new File("restaurant.json"), tables);
             System.out.println("Saved current data.");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
@@ -425,9 +437,10 @@ public class Main {
         List<Table> tables;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            tables = mapper.readValue(json, new TypeReference<List<Table>>(){});
+            tables = mapper.readValue(json, new TypeReference<List<Table>>() {
+            });
             System.out.println("Loaded current data.");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             tables = null;
         }

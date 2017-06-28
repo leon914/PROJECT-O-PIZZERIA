@@ -10,25 +10,23 @@ import java.util.List;
 public class Order {
 
     private List<Purchaseable> items = new ArrayList<>();
-    @JsonIgnore private Table tableOrder;
+    @JsonIgnore
+    private Table tableOrder;
 
-    public Order(){}
+    public Order() {
+    }
 
     public Order(Table tableOrder) {
         this.tableOrder = tableOrder;
 
     }
 
-    public void addItem(Purchaseable purchaseable){
-        items.add(purchaseable);
-    }
-
     public void orderSummary() {
         DecimalFormat df = new DecimalFormat("#.00");
         double price = 0;
-        for (Purchaseable item: items) {
-                System.out.println(item.getName() + " £" + df.format(item.getPrice()));
-                price += item.getPrice();
+        for (Purchaseable item : items) {
+            System.out.println(item.getName() + " £" + df.format(item.getPrice()));
+            price += item.getPrice();
         }
         System.out.println("Total Cost :- £" + df.format(price));
     }
