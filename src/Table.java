@@ -23,18 +23,6 @@ public class Table {
         this.tableNumber = tableNumber;
     }
 
-    public void addCustomer(final Customer newCustomer) {
-        if (customer == null) { // nobody sitting here yet
-            customer = newCustomer;
-        } else {
-            System.out.println("There isn't enough space on this table to add another customer");
-        }
-    }
-
-    public void removeCustomer() {
-        customer = null;
-    }
-
     public Customer getCustomer() {
         return customer;
     }

@@ -122,10 +122,21 @@ public class Main {
                 System.out.println(i + ". Table no " + restaurant.getTables().get(i).getTableNumber() + " - Currently has no order.");
             } else {
                 System.out.println(i + ". Table no " + restaurant.getTables().get(i).getTableNumber() + " has the following order:");
-                restaurant.getTables().get(i).getCustomer().getOrder().orderSummary();
+                orderSummary(restaurant, i);
             }
         }
     }
+
+    public static void orderSummary(Restaurant restaurant, int tableNumber) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        double price = 0;
+        for (Purchaseable item : restaurant.getTables().get(tableNumber).getCustomer().getOrder().getItems()) {
+            System.out.println(item.getName() + " £" + df.format(item.getPrice()));
+            price += item.getPrice();
+        }
+        System.out.println("Total Cost :- £" + df.format(price));
+    }
+
 
     public static void addCustomer(Restaurant restaurant) {
         System.out.println("What is this persons name?");
@@ -135,14 +146,18 @@ public class Main {
         printTables(restaurant);
         System.out.println("And what table would you like to sit at? (You can only have one person per table)");
         final int table = SCANNER.nextInt() - 1;
-        restaurant.getTables().get(table).addCustomer(new Customer(name, age));
+            if (restaurant.getTables().get(table).getCustomer() == null) { // nobody sitting here yet
+                restaurant.getTables().get(table).setCustomer(new Customer(name, age));
+            } else {
+                System.out.println("There isn't enough space on this table to add another customer");
+            }
     }
 
     public static void removeCustomer(Restaurant restaurant) {
         printTables(restaurant);
         System.out.println("Which table should be vacated?");
         int nominated = SCANNER.nextInt() - 1;
-        restaurant.getTables().get(nominated).removeCustomer();
+        restaurant.getTables().get(nominated).setCustomer(null);
         nominated++;
         System.out.println("Table no " + nominated + " has been vacated.");
     }
@@ -277,7 +292,7 @@ public class Main {
             }
         }
         System.out.println("Here is the order:");
-        restaurant.getTables().get(table).getCustomer().getOrder().orderSummary();
+        orderSummary(restaurant, table);
     }
 
     public static void addItemToOrder(Restaurant restaurant) {
@@ -410,7 +425,7 @@ public class Main {
             }
         }
         System.out.println("Here is the updated order:");
-        restaurant.getTables().get(table).getCustomer().getOrder().orderSummary();
+        orderSummary(restaurant, table);
     }
 
     public static void saveTables(Restaurant restaurant) {

@@ -13,22 +13,10 @@ public class Order {
     @JsonIgnore
     private Table tableOrder;
 
-    public Order() {
-    }
+    public Order() {}
 
     public Order(Table tableOrder) {
         this.tableOrder = tableOrder;
-
-    }
-
-    public void orderSummary() {
-        DecimalFormat df = new DecimalFormat("#.00");
-        double price = 0;
-        for (Purchaseable item : items) {
-            System.out.println(item.getName() + " £" + df.format(item.getPrice()));
-            price += item.getPrice();
-        }
-        System.out.println("Total Cost :- £" + df.format(price));
     }
 
     public List<Purchaseable> getItems() {
