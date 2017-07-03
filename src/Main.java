@@ -1,6 +1,5 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.internal.fastinfoset.tools.PrintTable;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -29,18 +28,13 @@ public class Main {
 
         while (true) {
 
+            //the scanner keeps going because nothing will accept the value so it keeps going in a circle
+
             printOptions();
 
-            int input;
+            int inputMenu = consoleInterpreterInt();
 
-            try {
-                input = SCANNER.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("This is not a number, Please insert a number.");
-                continue;
-            }
-
-            switch (input) {
+            switch (inputMenu) {
                 case 0:
                     return;
                 case 1:
@@ -153,11 +147,8 @@ public class Main {
     public static void printOrder(Restaurant restaurant) {
         System.out.println("What table is the customer sitting at? (Enter Corresponding Number");
         printTables(restaurant);
-        int table;
-        try {
-            table = SCANNER.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("That wasn't a table number, Please try again");
+        int table = consoleInterpreterInt();
+        if (table == -1) {
             return;
         }
         System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
@@ -167,11 +158,8 @@ public class Main {
             System.out.println("That wasn't a table number, Please try again");
             return;
         }
-        int nameIndex;
-        try {
-            nameIndex = SCANNER.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("That wasn't an existing customer, Please try again");
+        int nameIndex= consoleInterpreterInt();
+        if (nameIndex == -1) {
             return;
         }
         orderSummary(restaurant, table - 1, nameIndex - 1);
@@ -198,43 +186,31 @@ public class Main {
             return;
         }
         System.out.println("How old is this person?");
-         int age;
-        try {
-            age = SCANNER.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("That age wasn't valid, please try again.");
+        int age = consoleInterpreterInt();
+        if (age == -1) {
             return;
         }
         printTables(restaurant);
         System.out.println("And what table would you like to sit at?");
-        int table;
-        try {
-            table = SCANNER.nextInt() - 1;
-        } catch (InputMismatchException e) {
-            System.out.println("That table number wasn't valid, please try again.");
+        int table= consoleInterpreterInt();
+        if (table == -1) {
             return;
         }
-        restaurant.getTables().get(table).getCustomers().add(new Customer(name, age));
+        restaurant.getTables().get(table - 1).getCustomers().add(new Customer(name, age));
         System.out.println("Customer added.");
     }
 
     public static void removeCustomer(Restaurant restaurant) {
         printTables(restaurant);
         System.out.println("Which table is the person at that should be vacated?");
-        int nominated;
-        try {
-            nominated = SCANNER.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("That name wasn't valid, please try again.");
+        int nominated = consoleInterpreterInt();
+        if (nominated == -1) {
             return;
         }
         System.out.println("Who would should be vacated? (Enter Corresponding Number)");
         printCustomers(restaurant, nominated - 1);
-        int customerIndex;
-        try {
-            customerIndex = SCANNER.nextInt();
-        } catch(InputMismatchException e) {
-            System.out.println("This wasn't a valid option, please try again.");
+        int customerIndex = consoleInterpreterInt();
+        if (customerIndex == -1) {
             return;
         }
         restaurant.getTables().get(nominated - 1).getCustomers().remove(customerIndex - 1);
@@ -244,20 +220,14 @@ public class Main {
     public static void makeOrder(Restaurant restaurant) {
         System.out.println("Which table would you like to make an order to? (Select an Option)");
         printTables(restaurant);
-        int table;
-        try {
-            table = SCANNER.nextInt();
-        } catch(InputMismatchException e) {
-            System.out.println("This wasn't a valid option, please try again.");
+        int table = consoleInterpreterInt();
+        if (table == -1) {
             return;
         }
         System.out.println("Who's Order would you like to take? (Enter Corresponding Number)");
         printCustomers(restaurant, table - 1);
-        int customerIndex;
-        try {
-            customerIndex = SCANNER.nextInt();
-        } catch(InputMismatchException e) {
-            System.out.println("This wasn't a valid option, please try again.");
+        int customerIndex = consoleInterpreterInt();
+        if (customerIndex == -1) {
             return;
         }
         Order custOrder = new Order(restaurant.getTables().get(table - 1));
@@ -266,19 +236,8 @@ public class Main {
         System.out.println("What food you like to order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
         printFood(restaurant);
-
-        while (true) {
-
-            int input;
-            try {
-                input = SCANNER.nextInt();
-            } catch (InputMismatchException e){
-                System.out.println("That wasn't a valid option, Try again.");
-                break;
-            }
-            if (input == 0) {
-                break;
-            }
+        int input;
+        while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
@@ -291,18 +250,7 @@ public class Main {
         System.out.println("0.Finish your Order");
         printDrink(restaurant);
 
-        while (true) {
-
-            int input;
-            try {
-                input = SCANNER.nextInt();
-            } catch (InputMismatchException e){
-                System.out.println("That wasn't a valid option, Try again.");
-                break;
-            }
-            if (input == 0) {
-                break;
-            }
+        while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
@@ -332,7 +280,7 @@ public class Main {
 
         System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
         printCustomers(restaurant, table - 1);
-        int customerIndex;
+        int customerIndex = consoleInterpreterInt();
         try {
             customerIndex = SCANNER.nextInt();
             if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() == null) {
@@ -347,18 +295,8 @@ public class Main {
         System.out.println("What food you like to add to your order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
         printFood(restaurant);
-        while (true) {
-
-            int input;
-            try {
-                input = SCANNER.nextInt();
-            } catch (InputMismatchException e){
-                System.out.println("That wasn't a valid option, Try again.");
-                break;
-            }
-            if (input == 0) {
-                break;
-            }
+        int input;
+        while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
@@ -366,23 +304,10 @@ public class Main {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
-
         System.out.println("What drinks would you like to add? (Press the corresponding button to add it to your order)");
         System.out.println("0.Finish your Order");
         printDrink(restaurant);
-
-        while (true) {
-
-            int input;
-            try {
-                input = SCANNER.nextInt();
-            } catch (InputMismatchException e){
-                System.out.println("That wasn't a valid option, Try again.");
-                break;
-            }
-            if (input == 0) {
-                break;
-            }
+        while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
@@ -427,5 +352,15 @@ public class Main {
         }
         return tables;
 
+    }
+
+    public static int consoleInterpreterInt() {
+        try {
+            return SCANNER.nextInt();
+        } catch (InputMismatchException e) {
+            String badInput = SCANNER.next();
+            System.out.println("That wasn't valid, please try again.");
+            return -1;
+        }
     }
 }
