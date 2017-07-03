@@ -81,7 +81,7 @@ public class Main {
     }
 
     private static void printOptions() {
-        System.out.println("\nSelecto an optiono:");
+        System.out.println("\nSelect an option:");
         System.out.println("0. Exit");
         System.out.println("1. Print Tables");
         System.out.println("2. Print Food Menu");
@@ -161,9 +161,8 @@ public class Main {
             return;
         }
         System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
-        table--;
         try {
-            printCustomers(restaurant, table);
+            printCustomers(restaurant, table - 1);
         } catch (Exception e){
             System.out.println("That wasn't a table number, Please try again");
             return;
@@ -175,8 +174,7 @@ public class Main {
             System.out.println("That wasn't an existing customer, Please try again");
             return;
         }
-        nameIndex--;
-        orderSummary(restaurant, table, nameIndex);
+        orderSummary(restaurant, table - 1, nameIndex - 1);
         }
 
     public static void orderSummary(Restaurant restaurant, int tableNumber, int customerIndex) {
@@ -230,9 +228,8 @@ public class Main {
             System.out.println("That name wasn't valid, please try again.");
             return;
         }
-        nominated--;
         System.out.println("Who would should be vacated? (Enter Corresponding Number)");
-        printCustomers(restaurant, nominated);
+        printCustomers(restaurant, nominated - 1);
         int customerIndex;
         try {
             customerIndex = SCANNER.nextInt();
@@ -240,9 +237,7 @@ public class Main {
             System.out.println("This wasn't a valid option, please try again.");
             return;
         }
-        customerIndex--;
-        restaurant.getTables().get(nominated).getCustomers().remove(customerIndex);
-        nominated++;
+        restaurant.getTables().get(nominated - 1).getCustomers().remove(customerIndex - 1);
         System.out.println("Table no " + nominated + " has been vacated.");
     }
 
@@ -257,8 +252,7 @@ public class Main {
             return;
         }
         System.out.println("Who's Order would you like to take? (Enter Corresponding Number)");
-        table--;
-        printCustomers(restaurant, table);
+        printCustomers(restaurant, table - 1);
         int customerIndex;
         try {
             customerIndex = SCANNER.nextInt();
@@ -266,11 +260,8 @@ public class Main {
             System.out.println("This wasn't a valid option, please try again.");
             return;
         }
-
-        customerIndex--;
-
-        Order custOrder = new Order(restaurant.getTables().get(table));
-        restaurant.getTables().get(table).getCustomers().get(customerIndex).setOrder(custOrder);
+        Order custOrder = new Order(restaurant.getTables().get(table - 1));
+        restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).setOrder(custOrder);
 
         System.out.println("What food you like to order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
@@ -288,10 +279,9 @@ public class Main {
             if (input == 0) {
                 break;
             }
-            input--;
-            if (input <= restaurant.getMenu().getFoodMenu().size() - 1 && input >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input));
-                System.out.println(restaurant.getMenu().getFoodMenu().get(input).getName() + " was added to your order.");
+            if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
+                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
+                System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
@@ -313,16 +303,15 @@ public class Main {
             if (input == 0) {
                 break;
             }
-            input--;
-            if (input <= restaurant.getMenu().getDrinkMenu().size() - 1 && input >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input));
-                System.out.println(restaurant.getMenu().getDrinkMenu().get(input).getName() + " was added to your order.");
+            if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
+                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
+                System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
         System.out.println("Here is the order:");
-        orderSummary(restaurant, table, customerIndex);
+        orderSummary(restaurant, table - 1, customerIndex - 1);
     }
 
     public static void addItemToOrder(Restaurant restaurant) {
@@ -331,8 +320,8 @@ public class Main {
         printTables(restaurant);
         int table;
         try {
-            table = SCANNER.nextInt() - 1;
-            if (restaurant.getTables().get(table).getCustomers().isEmpty()) {
+            table = SCANNER.nextInt();
+            if (restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
                 System.out.println("This table is Unoccupied, please select an Occupied table.");
                 return;
             }
@@ -342,10 +331,10 @@ public class Main {
         }
 
         System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
-        printCustomers(restaurant, table);
+        printCustomers(restaurant, table - 1);
         int customerIndex;
         try {
-            customerIndex = SCANNER.nextInt() - 1;
+            customerIndex = SCANNER.nextInt();
             if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() == null) {
                 System.out.println("This wasn't a valid option, please try again.");
                 return;
@@ -370,17 +359,18 @@ public class Main {
             if (input == 0) {
                 break;
             }
-            input--;
-            if (input <= restaurant.getMenu().getFoodMenu().size() - 1 && input >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input));
-                System.out.println(restaurant.getMenu().getFoodMenu().get(input).getName() + " was added to your order.");
+            if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
+                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
+                System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
-        System.out.println("What drinks would you like to add to your order? (Press the corresponding button to add it to your order)");
+
+        System.out.println("What drinks would you like to add? (Press the corresponding button to add it to your order)");
         System.out.println("0.Finish your Order");
         printDrink(restaurant);
+
         while (true) {
 
             int input;
@@ -393,16 +383,15 @@ public class Main {
             if (input == 0) {
                 break;
             }
-            input--;
-            if (input <= restaurant.getMenu().getDrinkMenu().size() - 1 && input >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input));
-                System.out.println(restaurant.getMenu().getDrinkMenu().get(input).getName() + " was added to your order.");
+            if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
+                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
+                System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
-        System.out.println("Here is the order:");
-        orderSummary(restaurant, table, customerIndex);
+        System.out.println("Here is the updated order:");
+        orderSummary(restaurant, table - 1, customerIndex - 1);
     }
 
     public static void saveTables(Restaurant restaurant) {
