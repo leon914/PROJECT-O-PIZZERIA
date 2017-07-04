@@ -41,10 +41,10 @@ public class Main {
                     printTables(restaurant);
                     break;
                 case 2:
-                    printFood(restaurant);
+                    printMenu(restaurant.getMenu().getFoodMenu());
                     break;
                 case 3:
-                    printDrink(restaurant);
+                    printMenu(restaurant.getMenu().getDrinkMenu());
                     break;
                 case 4:
                     addCustomer(restaurant);
@@ -96,9 +96,9 @@ public class Main {
             if (!table.getCustomers().isEmpty()) {
                 status.append("Occupied by ");
                 int counter = 1;
-                for (Customer customer : restaurant.getTables().get(i).getCustomers()) {
+                for (Customer customer : table.getCustomers()) {
                     if (counter != 1) {
-                        if (restaurant.getTables().get(i).getCustomers().size() == counter) {
+                        if (table.getCustomers().size() == counter) {
                             status.append(" and ");
                         } else {
                             status.append(", ");
@@ -123,23 +123,15 @@ public class Main {
             }
         } else {
             System.out.println("Nobody is at this table, Try again please");
+            return;
         }
     }
 
-    public static void printFood(Restaurant restaurant) {
+    public static void printMenu(List<? extends Purchaseable> menuType) {
         DecimalFormat df = new DecimalFormat("#.00");
         int i = 1;
-        for (Food food : restaurant.getMenu().getFoodMenu()) {
-            System.out.println(i + "." + food.getName() + " £" + df.format(food.getPrice()));
-            i++;
-        }
-    }
-
-    public static void printDrink(Restaurant restaurant) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        int i = 1;
-        for (Drink drink : restaurant.getMenu().getDrinkMenu()) {
-            System.out.println(i + "." + drink.getName() + " £" + df.format(drink.getPrice()));
+        for (Purchaseable purchaseable : menuType) {
+            System.out.println(i + "." + purchaseable.getName() + " £" + df.format(purchaseable.getPrice()));
             i++;
         }
     }
@@ -147,28 +139,25 @@ public class Main {
     public static void printOrder(Restaurant restaurant) {
         System.out.println("What table is the customer sitting at? (Enter Corresponding Number");
         printTables(restaurant);
-        int table = consoleInterpreterInt();
-        if (table == -1) {
+        int tableNumber = consoleInterpreterInt();
+        if (tableNumber == -1) {
             return;
         }
-        System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
-        try {
-            printCustomers(restaurant, table - 1);
-        } catch (Exception e){
-            System.out.println("That wasn't a table number, Please try again");
-            return;
+        if (tableNumber - 1 > 5 || tableNumber - 1 >= 0) {
+            System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
         }
+        printCustomers(restaurant, tableNumber - 1);
         int nameIndex= consoleInterpreterInt();
         if (nameIndex == -1) {
             return;
         }
-        orderSummary(restaurant, table - 1, nameIndex - 1);
+        orderSummary(restaurant, tableNumber - 1, nameIndex - 1);
         }
 
-    public static void orderSummary(Restaurant restaurant, int tableNumber, int customerIndex) {
+    public static void orderSummary(Restaurant restaurant, int table, int customerIndex) {
         DecimalFormat df = new DecimalFormat("#.00");
         double price = 0;
-        for (Purchaseable item : restaurant.getTables().get(tableNumber).getCustomers().get(customerIndex).getOrder().getItems()) {
+        for (Purchaseable item : restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems()) {
             System.out.println(item.getName() + " £" + df.format(item.getPrice()));
             price += item.getPrice();
         }
@@ -235,7 +224,7 @@ public class Main {
 
         System.out.println("What food you like to order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
-        printFood(restaurant);
+        printMenu(restaurant.getMenu().getFoodMenu());
         int input;
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
@@ -248,8 +237,7 @@ public class Main {
 
         System.out.println("What would you like to drink? (Press the corresponding button to add it to your order)");
         System.out.println("0.Finish your Order");
-        printDrink(restaurant);
-
+        printMenu(restaurant.getMenu().getDrinkMenu());
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
@@ -294,7 +282,7 @@ public class Main {
 
         System.out.println("What food you like to add to your order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
-        printFood(restaurant);
+        printMenu(restaurant.getMenu().getFoodMenu());
         int input;
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
@@ -306,7 +294,7 @@ public class Main {
         }
         System.out.println("What drinks would you like to add? (Press the corresponding button to add it to your order)");
         System.out.println("0.Finish your Order");
-        printDrink(restaurant);
+        printMenu(restaurant.getMenu().getDrinkMenu());
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
                 restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
@@ -358,7 +346,7 @@ public class Main {
         try {
             return SCANNER.nextInt();
         } catch (InputMismatchException e) {
-            String badInput = SCANNER.next();
+            SCANNER.next();
             System.out.println("That wasn't valid, please try again.");
             return -1;
         }

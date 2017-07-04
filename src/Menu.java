@@ -33,7 +33,7 @@ public class Menu {
         add(new Drink("San Pellegrino", 1.50));
         add(new Drink("Peroni", 2.50));
         add(new Drink("Red Wine", 4.50));
-        add(new Drink("White Wine", 4.50));
+        add(new Drink("White Wine", 10.50));
     }};
 
     private Menu() {}
