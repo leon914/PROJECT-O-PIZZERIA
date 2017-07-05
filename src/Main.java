@@ -116,15 +116,11 @@ public class Main {
     }
 
     public static void printCustomers(Restaurant restaurant, int tableNumberIndex) {
-        if (!restaurant.getTables().get(tableNumberIndex).getCustomers().isEmpty()) {
             int counter = 1;
             for (Customer customer : restaurant.getTables().get(tableNumberIndex).getCustomers()) {
                 System.out.println(counter + ". " + customer.getName());
+                counter++;
             }
-        } else {
-            System.out.println("Nobody is at this table, Try again please");
-            return;
-        }
     }
 
     public static void printMenu(List<? extends Purchaseable> menuType) {
@@ -143,10 +139,13 @@ public class Main {
         if (tableNumber == -1) {
             return;
         }
-        if (tableNumber - 1 > 5 || tableNumber - 1 >= 0) {
+        if (tableNumber - 1 < 5 && tableNumber - 1 >= 0) {
             System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
+            printCustomers(restaurant, tableNumber - 1);
+        } else {
+            System.out.println("That wasn't valid, please try again.");
+            return;
         }
-        printCustomers(restaurant, tableNumber - 1);
         int nameIndex= consoleInterpreterInt();
         if (nameIndex == -1) {
             return;
@@ -171,7 +170,7 @@ public class Main {
         try {
             name = SCANNER.next();
         } catch (InputMismatchException e) {
-            System.out.println("That name wasn't valid, please try again.");
+            System.out.println("Sorry That name isn't available, please try again.");
             return;
         }
         System.out.println("How old is this person?");
@@ -179,31 +178,49 @@ public class Main {
         if (age == -1) {
             return;
         }
-        printTables(restaurant);
         System.out.println("And what table would you like to sit at?");
-        int table= consoleInterpreterInt();
+        printTables(restaurant);
+        int table = consoleInterpreterInt();
         if (table == -1) {
             return;
         }
-        restaurant.getTables().get(table - 1).getCustomers().add(new Customer(name, age));
-        System.out.println("Customer added.");
+        if (table - 1 < 5 && table - 1 >= 0) {
+            restaurant.getTables().get(table - 1).getCustomers().add(new Customer(name, age));
+            System.out.println("Customer added.");
+        } else {
+            System.out.println("That table wasn't valid, please try again.");
+            return;
+        }
     }
 
     public static void removeCustomer(Restaurant restaurant) {
-        printTables(restaurant);
         System.out.println("Which table is the person at that should be vacated?");
-        int nominated = consoleInterpreterInt();
+        printTables(restaurant);
+        int nominated = consoleInterpreterInt(); //so it isnt a string
         if (nominated == -1) {
             return;
         }
-        System.out.println("Who would should be vacated? (Enter Corresponding Number)");
-        printCustomers(restaurant, nominated - 1);
+        if (nominated <= AMOUNT_OF_TABLES && nominated >= 1 && !restaurant.getTables().get(nominated - 1).getCustomers().isEmpty()) {
+            System.out.println("Who would should be vacated from table?" + nominated + "(Enter Corresponding Number)");
+            nominated--;
+            printCustomers(restaurant, nominated);
+        } else {
+            System.out.println("That wasn't valid, please try again.");
+            return;
+        }
         int customerIndex = consoleInterpreterInt();
         if (customerIndex == -1) {
             return;
         }
-        restaurant.getTables().get(nominated - 1).getCustomers().remove(customerIndex - 1);
-        System.out.println("Table no " + nominated + " has been vacated.");
+        if (customerIndex <= restaurant.getTables().get(nominated).getCustomers().size() && restaurant.getTables().get(nominated).getCustomers().get(customerIndex-1) != null && customerIndex - 1 >= 0) {
+            customerIndex--;
+            System.out.println(restaurant.getTables().get(nominated).getCustomers().get(customerIndex).getName() + " has left.");
+            restaurant.getTables().get(nominated).getCustomers().remove(customerIndex);
+            return;
+        } else {
+            System.out.println("That wasn't valid, please try again.");
+            return;
+        }
     }
 
     public static void makeOrder(Restaurant restaurant) {
@@ -213,8 +230,14 @@ public class Main {
         if (table == -1) {
             return;
         }
-        System.out.println("Who's Order would you like to take? (Enter Corresponding Number)");
-        printCustomers(restaurant, table - 1);
+        if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
+            System.out.println("Who's Order would you like to take?" + table + "(Enter Corresponding Number)");
+            table--;
+            printCustomers(restaurant, table);
+        } else {
+            System.out.println("That wasn't valid, please try again.");
+            return;
+        }
         int customerIndex = consoleInterpreterInt();
         if (customerIndex == -1) {
             return;
@@ -265,12 +288,16 @@ public class Main {
             System.out.println("This wasn't a valid option, please try again.");
             return;
         }
-
-        System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
-        printCustomers(restaurant, table - 1);
-        int customerIndex = consoleInterpreterInt();
+        if (table - 1 > 5 && table - 1 >= 0) {
+            System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
+            printCustomers(restaurant, table - 1);
+        } else {
+            System.out.println("That table wasn't valid, please try again.");
+            return;
+        }
+        int customerIndex;
         try {
-            customerIndex = SCANNER.nextInt();
+            customerIndex = consoleInterpreterInt();
             if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() == null) {
                 System.out.println("This wasn't a valid option, please try again.");
                 return;
