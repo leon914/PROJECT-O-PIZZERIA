@@ -116,11 +116,11 @@ public class Main {
     }
 
     public static void printCustomers(Restaurant restaurant, int tableNumberIndex) {
-            int counter = 1;
-            for (Customer customer : restaurant.getTables().get(tableNumberIndex).getCustomers()) {
-                System.out.println(counter + ". " + customer.getName());
-                counter++;
-            }
+        int counter = 1;
+        for (Customer customer : restaurant.getTables().get(tableNumberIndex).getCustomers()) {
+            System.out.println(counter + ". " + customer.getName());
+            counter++;
+        }
     }
 
     public static void printMenu(List<? extends Purchaseable> menuType) {
@@ -135,32 +135,44 @@ public class Main {
     public static void printOrder(Restaurant restaurant) {
         System.out.println("What table is the customer sitting at? (Enter Corresponding Number");
         printTables(restaurant);
-        int tableNumber = consoleInterpreterInt();
-        if (tableNumber == -1) {
+        int table = consoleInterpreterInt();
+        if (table == -1) {
             return;
         }
-        if (tableNumber - 1 < 5 && tableNumber - 1 >= 0) {
+        if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
-            printCustomers(restaurant, tableNumber - 1);
+            table--;
+            printCustomers(restaurant, table);
         } else {
             System.out.println("That wasn't valid, please try again.");
             return;
         }
-        int nameIndex= consoleInterpreterInt();
-        if (nameIndex == -1) {
+        int customerIndex = consoleInterpreterInt();
+        if (customerIndex == -1) {
             return;
         }
-        orderSummary(restaurant, tableNumber - 1, nameIndex - 1);
+        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex > 0 && restaurant.getTables().get(table).getCustomers().get(customerIndex-1).getOrder() != null) {
+            customerIndex--;
+            orderSummary(restaurant, table, customerIndex);
+        } else {
+            System.out.println("That wasn't valid/existing order, please try again.");
+            return;
         }
+    }
 
     public static void orderSummary(Restaurant restaurant, int table, int customerIndex) {
         DecimalFormat df = new DecimalFormat("#.00");
         double price = 0;
-        for (Purchaseable item : restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems()) {
-            System.out.println(item.getName() + " £" + df.format(item.getPrice()));
-            price += item.getPrice();
+        if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() != null) {
+            for (Purchaseable item : restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems()) {
+                System.out.println(item.getName() + " £" + df.format(item.getPrice()));
+                price += item.getPrice();
+            }
+            System.out.println("Total Cost :- £" + df.format(price));
+        } else {
+            System.out.println("That wasn't valid/existing order, please try again.");
+            return;
         }
-        System.out.println("Total Cost :- £" + df.format(price));
     }
 
 
@@ -196,14 +208,14 @@ public class Main {
     public static void removeCustomer(Restaurant restaurant) {
         System.out.println("Which table is the person at that should be vacated?");
         printTables(restaurant);
-        int nominated = consoleInterpreterInt(); //so it isnt a string
-        if (nominated == -1) {
+        int table = consoleInterpreterInt(); //so it isnt a string
+        if (table == -1) {
             return;
         }
-        if (nominated <= AMOUNT_OF_TABLES && nominated >= 1 && !restaurant.getTables().get(nominated - 1).getCustomers().isEmpty()) {
-            System.out.println("Who would should be vacated from table?" + nominated + "(Enter Corresponding Number)");
-            nominated--;
-            printCustomers(restaurant, nominated);
+        if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
+            System.out.println("Who would should be vacated from table? (Enter Corresponding Number)");
+            table--;
+            printCustomers(restaurant, table);
         } else {
             System.out.println("That wasn't valid, please try again.");
             return;
@@ -212,10 +224,10 @@ public class Main {
         if (customerIndex == -1) {
             return;
         }
-        if (customerIndex <= restaurant.getTables().get(nominated).getCustomers().size() && restaurant.getTables().get(nominated).getCustomers().get(customerIndex-1) != null && customerIndex - 1 >= 0) {
+        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex - 1 > -1 && restaurant.getTables().get(table).getCustomers().get(customerIndex - 1) != null) {
             customerIndex--;
-            System.out.println(restaurant.getTables().get(nominated).getCustomers().get(customerIndex).getName() + " has left.");
-            restaurant.getTables().get(nominated).getCustomers().remove(customerIndex);
+            System.out.println(restaurant.getTables().get(table).getCustomers().get(customerIndex).getName() + " has left.");
+            restaurant.getTables().get(table).getCustomers().remove(customerIndex);
             return;
         } else {
             System.out.println("That wasn't valid, please try again.");
@@ -230,8 +242,9 @@ public class Main {
         if (table == -1) {
             return;
         }
+        //table Check
         if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
-            System.out.println("Who's Order would you like to take?" + table + "(Enter Corresponding Number)");
+            System.out.println("Who's Order would you like to take?");
             table--;
             printCustomers(restaurant, table);
         } else {
@@ -242,67 +255,69 @@ public class Main {
         if (customerIndex == -1) {
             return;
         }
-        Order custOrder = new Order(restaurant.getTables().get(table - 1));
-        restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).setOrder(custOrder);
-
+        //customerIndex Check
+        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex - 1 > -1 && restaurant.getTables().get(table).getCustomers().get(customerIndex - 1) != null) {
+            customerIndex--;
+            Order custOrder = new Order(restaurant.getTables().get(table));
+            restaurant.getTables().get(table).getCustomers().get(customerIndex).setOrder(custOrder);
+        } else {
+            System.out.println("That wasn't valid, please try again.");
+            return;
+        }
+        //Food Ordering
         System.out.println("What food you like to order? (Press the corresponding button to add it to your order)");
         System.out.println("0.Proceed to Ordering Drinks");
         printMenu(restaurant.getMenu().getFoodMenu());
         int input;
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
+                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
-
+        //Drink Ordering
         System.out.println("What would you like to drink? (Press the corresponding button to add it to your order)");
         System.out.println("0.Finish your Order");
         printMenu(restaurant.getMenu().getDrinkMenu());
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
+                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
             }
         }
         System.out.println("Here is the order:");
-        orderSummary(restaurant, table - 1, customerIndex - 1);
+        orderSummary(restaurant, table, customerIndex);
     }
 
     public static void addItemToOrder(Restaurant restaurant) {
 
         System.out.println("Which table order would you like to add to? (Select an Option)");
         printTables(restaurant);
-        int table;
-        try {
-            table = SCANNER.nextInt();
-            if (restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
-                System.out.println("This table is Unoccupied, please select an Occupied table.");
-                return;
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("This wasn't a valid option, please try again.");
-            return;
-        }
-        if (table - 1 > 5 && table - 1 >= 0) {
+        int table = consoleInterpreterInt();
+        //table Check
+        if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
-            printCustomers(restaurant, table - 1);
+            table--;
+            printCustomers(restaurant, table);
         } else {
-            System.out.println("That table wasn't valid, please try again.");
+            System.out.println("This table is Unoccupied, please select an Occupied table.");
             return;
         }
         int customerIndex;
+        //customerIndex Check
         try {
             customerIndex = consoleInterpreterInt();
             if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() == null) {
                 System.out.println("This wasn't a valid option, please try again.");
                 return;
+            } else {
+                customerIndex--;
             }
-        } catch(InputMismatchException e) {
+        } catch (InputMismatchException e) {
             System.out.println("This wasn't a valid option, please try again.");
             return;
         }
@@ -313,7 +328,7 @@ public class Main {
         int input;
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
+                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
@@ -324,7 +339,7 @@ public class Main {
         printMenu(restaurant.getMenu().getDrinkMenu());
         while ((input = consoleInterpreterInt()) != 0) {
             if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
+                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
                 System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
             } else {
                 System.out.println("That wasn't a valid option, Try again.");
