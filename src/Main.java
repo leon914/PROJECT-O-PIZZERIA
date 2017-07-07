@@ -42,10 +42,10 @@ public class Main {
                     printTables(restaurant);
                     break;
                 case 2:
-                    printMenu(restaurant.getMenu().getFoodMenu());
+                    printMenu(restaurant.getMenu().getMenu(true));
                     break;
                 case 3:
-                    printMenu(restaurant.getMenu().getDrinkMenu());
+                    printMenu(restaurant.getMenu().getMenu(false));
                     break;
                 case 4:
                     addCustomer(restaurant);
@@ -250,7 +250,8 @@ public class Main {
             return;
         }
         //customerIndex Check
-        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex - 1 > -1 && restaurant.getTables().get(table).getCustomers().get(customerIndex - 1) != null) {
+        List<Customer> customers = restaurant.getTables().get(table).getCustomers();
+        if (customerIndex <= customers.size() && customerIndex - 1 > -1 && customers.get(customerIndex - 1) != null) {
             customerIndex--;
             Order custOrder = new Order(restaurant.getTables().get(table));
             restaurant.getTables().get(table).getCustomers().get(customerIndex).setOrder(custOrder);
@@ -258,30 +259,30 @@ public class Main {
             System.out.println("That wasn't valid, please try again.");
             return;
         }
-        //Food Ordering
-        System.out.println("What food you like to order? (Press the corresponding button to add it to your order)");
-        System.out.println("0.Proceed to Ordering Drinks");
-        printMenu(restaurant.getMenu().getFoodMenu());
-        int input;
-        while ((input = consoleInterpreterInt()) != 0) {
-            if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
-                System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
+        //Ordering
+        int order = 0;
+        List<Purchaseable> menu;
+        while (order < 2) {
+            if (order == 0) {
+                System.out.println("What food would you like to order? (Press the corresponding button to add it to your order)");
+                System.out.println("0.Proceed to Ordering Drinks");
+                menu = restaurant.getMenu().getMenu(true);
             } else {
-                System.out.println("That wasn't a valid option, Try again.");
+                System.out.println("What would you like to drink? (Press the corresponding button to add it to your order)");
+                System.out.println("0.Finish your Order");
+                menu = restaurant.getMenu().getMenu(false);
             }
-        }
-        //Drink Ordering
-        System.out.println("What would you like to drink? (Press the corresponding button to add it to your order)");
-        System.out.println("0.Finish your Order");
-        printMenu(restaurant.getMenu().getDrinkMenu());
-        while ((input = consoleInterpreterInt()) != 0) {
-            if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
-                System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
-            } else {
-                System.out.println("That wasn't a valid option, Try again.");
+            printMenu(menu);
+            int input;
+            while ((input = consoleInterpreterInt()) != 0) {
+                if (input <= menu.size() && input - 1 >= 0) {
+                    restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(menu.get(input - 1));
+                    System.out.println(menu.get(input - 1).getName() + " was added to your order.");
+                } else {
+                    System.out.println("That wasn't a valid option, Try again.");
+                }
             }
+            order++;
         }
         System.out.println("Here is the order:");
         orderSummary(restaurant.getTables().get(table).getCustomers().get(customerIndex));
@@ -315,29 +316,29 @@ public class Main {
             System.out.println("This wasn't a valid option, please try again.");
             return;
         }
-
-        System.out.println("What food you like to add to your order? (Press the corresponding button to add it to your order)");
-        System.out.println("0.Proceed to Ordering Drinks");
-        printMenu(restaurant.getMenu().getFoodMenu());
-        int input;
-        while ((input = consoleInterpreterInt()) != 0) {
-            if (input <= restaurant.getMenu().getFoodMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getFoodMenu().get(input - 1));
-                System.out.println(restaurant.getMenu().getFoodMenu().get(input - 1).getName() + " was added to your order.");
+        int order = 0;
+        List<Purchaseable> menu;
+        while (order < 2) {
+            if (order == 0) {
+                System.out.println("What food you like to add to your order? (Press the corresponding button to add it to your order)");
+                System.out.println("0.Proceed to Ordering Drinks");
+                menu = restaurant.getMenu().getMenu(true);
             } else {
-                System.out.println("That wasn't a valid option, Try again.");
+                System.out.println("What drinks would you like to add? (Press the corresponding button to add it to your order)");
+                System.out.println("0.Finish your Order");
+                menu = restaurant.getMenu().getMenu(false);
             }
-        }
-        System.out.println("What drinks would you like to add? (Press the corresponding button to add it to your order)");
-        System.out.println("0.Finish your Order");
-        printMenu(restaurant.getMenu().getDrinkMenu());
-        while ((input = consoleInterpreterInt()) != 0) {
-            if (input <= restaurant.getMenu().getDrinkMenu().size() && input - 1 >= 0) {
-                restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(restaurant.getMenu().getDrinkMenu().get(input - 1));
-                System.out.println(restaurant.getMenu().getDrinkMenu().get(input - 1).getName() + " was added to your order.");
-            } else {
-                System.out.println("That wasn't a valid option, Try again.");
+            printMenu(menu);
+            int input;
+            while ((input = consoleInterpreterInt()) != 0) {
+                if (input <= menu.size() && input - 1 >= 0) {
+                    restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems().add(menu.get(input - 1));
+                    System.out.println(menu.get(input - 1).getName() + " was added to your order.");
+                } else {
+                    System.out.println("That wasn't a valid option, Try again.");
+                }
             }
+            order++;
         }
         System.out.println("Here is the updated order:");
         orderSummary(restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1));

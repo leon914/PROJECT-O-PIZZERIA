@@ -11,7 +11,7 @@ public class Menu {
 
     private static Menu instance = null;
 
-    private final List<Food> foodMenu = new ArrayList<Food>() {{
+    private final List<Purchaseable> foodMenu = new ArrayList<Purchaseable>() {{
         add(new Food("Margherita Pizza", 7.00));
         add(new Food("Pepperoni Pizza", 8.00));
         add(new Food("Hawaiian  Pizza", 8.50));
@@ -24,7 +24,7 @@ public class Menu {
         add(new Food("Lasagna", 9.25));
     }};
 
-    private final List<Drink> drinkMenu = new ArrayList<Drink>() {{
+    private final List<Purchaseable> drinkMenu = new ArrayList<Purchaseable>() {{
         add(new Drink("Tap Water", 0.00));
         add(new Drink("Bottled Water", 0.50));
         add(new Drink("Orange Juice", 1.20));
@@ -45,11 +45,12 @@ public class Menu {
         return instance;
     }
 
-    public List<Food> getFoodMenu() {
-        return foodMenu;
-    }
+    public List<Purchaseable> getMenu(boolean trueForFood_falseForDrink) {
+        if (trueForFood_falseForDrink) {
+            return foodMenu; //True for Food
+        } else {
+            return drinkMenu; //False for Drink
+        }
 
-    public List<Drink> getDrinkMenu() {
-        return drinkMenu;
     }
 }
