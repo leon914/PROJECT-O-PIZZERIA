@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.control.Tab;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -95,8 +96,7 @@ public class Main {
             StringBuilder status = new StringBuilder();
             if (!table.getCustomers().isEmpty()) {
                 status.append("Occupied by ");
-                int counter = 1;
-                for (Customer customer : table.getCustomers()) {
+                for (int counter = 1; counter <= table.getCustomers().size(); counter++) {
                     if (counter != 1) {
                         if (table.getCustomers().size() == counter) {
                             status.append(" and ");
@@ -104,30 +104,25 @@ public class Main {
                             status.append(", ");
                         }
                     }
-                    status.append(customer.getName());
-                    counter++;
+                    status.append(table.getCustomers().get(counter-1).getName());
                 }
             } else {
                 status.append("Unoccupied");
             }
-            int tableNumberReadable = i + 1;
-            System.out.println(tableNumberReadable + ". Table no " + table.getTableNumber() + " - " + status);
+            System.out.println((i + 1) + ". Table no " + table.getTableNumber() + " - " + status);
         }
     }
 
-    public static void printCustomers(Restaurant restaurant, int tableNumberIndex) {
-        int counter = 1;
-        for (Customer customer : restaurant.getTables().get(tableNumberIndex).getCustomers()) {
-            System.out.println(counter + ". " + customer.getName());
-            counter++;
+    public static void printCustomers(Table table) {
+        for (int counter = 1; counter <= table.getCustomers().size(); counter++) {
+            System.out.println(counter + ". " + table.getCustomers().get(counter - 1).getName());
         }
     }
 
     public static void printMenu(List<? extends Purchaseable> menuType) {
-        DecimalFormat df = new DecimalFormat("#.00");
         int i = 1;
         for (Purchaseable purchaseable : menuType) {
-            System.out.println(i + "." + purchaseable.getName() + " £" + df.format(purchaseable.getPrice()));
+            System.out.println(i + "." + purchaseable);
             i++;
         }
     }
@@ -142,7 +137,7 @@ public class Main {
         if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Which Customers Order would you like to see? (Enter Corresponding Number)");
             table--;
-            printCustomers(restaurant, table);
+            printCustomers(restaurant.getTables().get(table));
         } else {
             System.out.println("That wasn't valid, please try again.");
             return;
@@ -151,27 +146,26 @@ public class Main {
         if (customerIndex == -1) {
             return;
         }
-        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex > 0 && restaurant.getTables().get(table).getCustomers().get(customerIndex-1).getOrder() != null) {
+        List<Customer> customers = restaurant.getTables().get(table).getCustomers();
+        if (customerIndex <= customers.size() && customerIndex > 0 && customers.get(customerIndex-1).getOrder() != null) {
             customerIndex--;
-            orderSummary(restaurant, table, customerIndex);
+            orderSummary(restaurant.getTables().get(table).getCustomers().get(customerIndex));
         } else {
             System.out.println("That wasn't valid/existing order, please try again.");
-            return;
         }
     }
 
-    public static void orderSummary(Restaurant restaurant, int table, int customerIndex) {
+    public static void orderSummary(Customer customer) {
         DecimalFormat df = new DecimalFormat("#.00");
         double price = 0;
-        if (restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder() != null) {
-            for (Purchaseable item : restaurant.getTables().get(table).getCustomers().get(customerIndex).getOrder().getItems()) {
-                System.out.println(item.getName() + " £" + df.format(item.getPrice()));
+        if (customer.getOrder() != null) {
+            for (Purchaseable item : customer.getOrder().getItems()) {
+                System.out.println(item);
                 price += item.getPrice();
             }
             System.out.println("Total Cost :- £" + df.format(price));
         } else {
             System.out.println("That wasn't valid/existing order, please try again.");
-            return;
         }
     }
 
@@ -196,12 +190,11 @@ public class Main {
         if (table == -1) {
             return;
         }
-        if (table - 1 < 5 && table - 1 >= 0) {
+        if (table <= AMOUNT_OF_TABLES && table - 1 >= 0) {
             restaurant.getTables().get(table - 1).getCustomers().add(new Customer(name, age));
             System.out.println("Customer added.");
         } else {
             System.out.println("That table wasn't valid, please try again.");
-            return;
         }
     }
 
@@ -215,7 +208,7 @@ public class Main {
         if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Who would should be vacated from table? (Enter Corresponding Number)");
             table--;
-            printCustomers(restaurant, table);
+            printCustomers(restaurant.getTables().get(table));
         } else {
             System.out.println("That wasn't valid, please try again.");
             return;
@@ -224,9 +217,10 @@ public class Main {
         if (customerIndex == -1) {
             return;
         }
-        if (customerIndex <= restaurant.getTables().get(table).getCustomers().size() && customerIndex - 1 > -1 && restaurant.getTables().get(table).getCustomers().get(customerIndex - 1) != null) {
+        List<Customer> customers = restaurant.getTables().get(table).getCustomers();
+        if (customerIndex <= customers.size() && customerIndex - 1 > -1 && customers.get(customerIndex - 1) != null) {
             customerIndex--;
-            System.out.println(restaurant.getTables().get(table).getCustomers().get(customerIndex).getName() + " has left.");
+            System.out.println(customers.get(customerIndex).getName() + " has left.");
             restaurant.getTables().get(table).getCustomers().remove(customerIndex);
             return;
         } else {
@@ -246,7 +240,7 @@ public class Main {
         if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Who's Order would you like to take?");
             table--;
-            printCustomers(restaurant, table);
+            printCustomers(restaurant.getTables().get(table));
         } else {
             System.out.println("That wasn't valid, please try again.");
             return;
@@ -290,7 +284,7 @@ public class Main {
             }
         }
         System.out.println("Here is the order:");
-        orderSummary(restaurant, table, customerIndex);
+        orderSummary(restaurant.getTables().get(table).getCustomers().get(customerIndex));
     }
 
     public static void addItemToOrder(Restaurant restaurant) {
@@ -302,7 +296,7 @@ public class Main {
         if (table <= AMOUNT_OF_TABLES && table >= 1 && !restaurant.getTables().get(table - 1).getCustomers().isEmpty()) {
             System.out.println("Who's Order would you like to add to? (Enter Corresponding Number)");
             table--;
-            printCustomers(restaurant, table);
+            printCustomers(restaurant.getTables().get(table));
         } else {
             System.out.println("This table is Unoccupied, please select an Occupied table.");
             return;
@@ -346,7 +340,7 @@ public class Main {
             }
         }
         System.out.println("Here is the updated order:");
-        orderSummary(restaurant, table - 1, customerIndex - 1);
+        orderSummary(restaurant.getTables().get(table - 1).getCustomers().get(customerIndex - 1));
     }
 
     public static void saveTables(Restaurant restaurant) {

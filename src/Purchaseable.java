@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 /**
  * Created by lhi06 on 15/06/2017.
  */
@@ -28,5 +30,11 @@ public class Purchaseable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return (name + " £" + df.format(price));
     }
 }
