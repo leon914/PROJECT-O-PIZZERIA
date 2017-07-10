@@ -1,35 +1,35 @@
+import javafx.scene.control.Tab;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by lhi06 on 15/06/2017.
  */
 public class Waiter {
 
-    private String name;
-    private Order order;
+    private final String name;
 
-    public Waiter(String name) {
+    private final List<Table> assignedTables = new ArrayList<>();
+
+    public Waiter(final String name) {
         this.name = name;
     }
 
+    public List<Table> getAssignedTables() {
+        return assignedTables;
+    }
+
+    public void assignTable(Table table) {
+        assignedTables.add(table);
+    }
+
+    public void removeTable(Table table) {
+        assignedTables.remove(table);
+    }
+
     public String getName() {
-        return this.name;
+        return name;
     }
-
-    public void addCustomerToTable(Customer customer, Table table) {
-        table.addCustomerExisting(customer);
-    }
-    public void removeCustomerFromTable(Customer customer, Table table) {
-        table.removeCustomerExisting(customer);
-    }
-    public void startOrder(Table table, Restaurant restaurant) {
-        System.out.println("Hello, my name is " + this.name + ", how may I help?");
-        restaurant.addOrder(new Order(table));
-    }
-    public void addItem(Purchaseable purchaseable) {
-        this.order.addItem(purchaseable);
-    }
-    public void finishOrder() {
-        this.order.orderSummary();
-    }
-
 
 }

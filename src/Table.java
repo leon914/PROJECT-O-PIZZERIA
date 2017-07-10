@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,31 +8,35 @@ import java.util.List;
  */
 public class Table {
 
-    private int seats;
-    private List<Customer> customers = new ArrayList();
+    private int tableNumber;
 
-    public Table(int seats){
-        this.seats = seats;
+    private List<Customer> customers = new ArrayList<>();
+
+    public Table() {
     }
 
-    public void addCustomerExisting(Customer customer) {
-        if (this.customers.size() <= this.seats) {
-        customers.add(customer);
-        } else {
-            System.out.println("There isn't enough space on this table to add another customer");
-        }
+    public Table(final int tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
-    public void removeCustomerExisting(Customer customer) {
-            customers.remove(customer);
+    public int getTableNumber() {
+        return tableNumber;
     }
 
-
-    public int getSeats() {
-      return this.seats;
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
-    public List<Customer> getCustomerList() {
-        return this.customers;
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.tableNumber == ((Table)obj).tableNumber;
     }
 }

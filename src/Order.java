@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,26 +9,29 @@ import java.util.List;
  */
 public class Order {
 
-    private List<Purchaseable> order = new ArrayList<>();
+    private List<Purchaseable> items = new ArrayList<>();
+    @JsonIgnore
     private Table tableOrder;
+
+    public Order() {}
 
     public Order(Table tableOrder) {
         this.tableOrder = tableOrder;
-
     }
 
-    public void addItem(Purchaseable purchaseable){
-        this.order.add(purchaseable);
+    public List<Purchaseable> getItems() {
+        return items;
     }
 
-    public void orderSummary() {
-        DecimalFormat df = new DecimalFormat("#.00");
-        double price = 0;
-        for (Purchaseable item: order) {
-                System.out.println(item.getName() + " £" + df.format(item.getPrice()));
-                price += item.getPrice();
-        }
-        System.out.println("Total Cost :- £" + df.format(price));
+    public Table getTableOrder() {
+        return tableOrder;
     }
 
+    public void setItems(List<Purchaseable> items) {
+        this.items = items;
+    }
+
+    public void setTableOrder(Table tableOrder) {
+        this.tableOrder = tableOrder;
+    }
 }
